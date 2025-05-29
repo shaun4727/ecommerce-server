@@ -9,6 +9,7 @@ import { BrandController } from './brand.controller';
 const router = Router();
 
 router.get("/", BrandController.getAllBrand)
+router.get("/brands-with-product",BrandController.getBrandsWithProducts)
 
 router.post(
     '/',

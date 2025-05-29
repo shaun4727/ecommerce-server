@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
-import { IBrand } from "./brand.interface";
+import { IBrand, BrandModel } from "./brand.interface";
 
-const brandSchema = new Schema<IBrand>(
+const brandSchema = new Schema<IBrand,BrandModel>(
   {
     name: {
       type: String,
@@ -28,4 +28,33 @@ const brandSchema = new Schema<IBrand>(
   }
 );
 
-export const Brand = model<IBrand>("Brand", brandSchema);
+
+brandSchema.statics.findWithProducts = async function (limit = 8) {
+  const brandsWithProducts = await this.aggregate([
+    {
+      $lookup: {
+        from: 'products',
+        localField: '_id',
+        foreignField: 'brand',
+        as: 'products',
+      },
+    },
+    {
+      $match: {
+        'products.0': { $exists: true },
+      },
+    },
+    {
+      $limit: limit,
+    },
+    {
+      $project: {
+        products: 0, // exclude products array if not needed
+      },
+    },
+  ]);
+
+  return brandsWithProducts;
+};
+
+export const Brand = model<IBrand, BrandModel>("Brand", brandSchema);

@@ -8,31 +8,31 @@ const router = Router();
 // Define routes
 router.get(
     '/my-shop-orders',
-    auth(UserRole.USER),
+    auth(UserRole.USER,UserRole.ADMIN),
     OrderController.getMyShopOrders
 );
 
 router.get(
     '/my-orders',
-    auth(UserRole.USER),
+    auth(UserRole.USER,UserRole.ADMIN),
     OrderController.getMyOrders
 );
 
 router.get(
     '/:orderId',
-    auth(UserRole.USER),
+    auth(UserRole.USER,UserRole.ADMIN),
     OrderController.getOrderDetails
 );
 
 router.post(
     '/',
-    auth(UserRole.USER),
+    auth(UserRole.USER,UserRole.ADMIN),
     OrderController.createOrder
 )
 
 router.patch(
     '/:orderId/status',
-    auth(UserRole.USER),
+    auth(UserRole.USER,UserRole.ADMIN),
     OrderController.changeOrderStatus
 )
 

@@ -12,13 +12,13 @@ const router = Router();
 
 router.get(
     '/my-shop',
-    auth(UserRole.USER),
+    auth(UserRole.ADMIN,UserRole.USER),
     ShopController.getMyShop
 )
 
 router.post(
     '/',
-    auth(UserRole.USER),
+    auth(UserRole.ADMIN),
     multerUpload.single('logo'),
     parseBody,
     validateRequest(ShopValidation.createShopValidation),

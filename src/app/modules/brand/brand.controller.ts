@@ -33,6 +33,17 @@ const getAllBrand = catchAsync(async (req, res) => {
    });
 });
 
+const getBrandsWithProducts = catchAsync(async (req, res) => {
+   const result = await BrandService.getAllBrandFromDB();
+
+   sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: 'Brands are retrieved successfully',
+      data: result.result,
+   });
+});
+
 const updateBrand = catchAsync(async (req, res) => {
    const { id } = req.params;
    const result = await BrandService.updateBrandIntoDB(
@@ -52,6 +63,7 @@ const updateBrand = catchAsync(async (req, res) => {
 
 const deleteBrand = catchAsync(async (req, res) => {
    const { id } = req.params;
+
    const result = await BrandService.deleteBrandIntoDB(
       id,
       req.user as IJwtPayload
@@ -69,5 +81,6 @@ export const BrandController = {
    createBrand,
    getAllBrand,
    updateBrand,
-   deleteBrand
+   deleteBrand,
+   getBrandsWithProducts
 };

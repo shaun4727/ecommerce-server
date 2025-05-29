@@ -44,6 +44,14 @@ const getAllBrand = async (query: Record<string, unknown>) => {
    };
 };
 
+const getAllBrandFromDB = async () => {
+   const result = await Brand.findWithProducts();
+
+   return {
+      result,
+   };
+};
+
 const updateBrandIntoDB = async (
    id: string,
    payload: Partial<IBrand>,
@@ -54,6 +62,8 @@ const updateBrandIntoDB = async (
    if (!isBrandExist) {
       throw new AppError(StatusCodes.NOT_FOUND, 'Brand not found!');
    }
+
+
 
    if (
       authUser.role === UserRole.USER &&
@@ -83,6 +93,7 @@ const deleteBrandIntoDB = async (
       throw new AppError(StatusCodes.NOT_FOUND, 'Brand not found!');
    }
 
+
    if (
       authUser.role === UserRole.USER &&
       isBrandExist.createdBy.toString() !== authUser.userId
@@ -104,5 +115,6 @@ export const BrandService = {
    createBrand,
    getAllBrand,
    updateBrandIntoDB,
-   deleteBrandIntoDB
+   deleteBrandIntoDB,
+   getAllBrandFromDB
 };

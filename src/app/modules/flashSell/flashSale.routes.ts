@@ -9,7 +9,7 @@ router.get('/', FlashSaleController.getActiveFlashSalesService)
 
 router.post(
     '/',
-    auth(UserRole.USER),
+    auth(UserRole.ADMIN),
     FlashSaleController.createFlashSale
 )
 
