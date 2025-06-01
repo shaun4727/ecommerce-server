@@ -82,7 +82,7 @@ const validatePaymentService = async (tran_id: string): Promise<boolean> => {
             tran_id
         });
 
-        console.log(validationResponse.element);
+        
 
         let data;
 
@@ -130,31 +130,31 @@ const validatePaymentService = async (tran_id: string): Promise<boolean> => {
         }
 
         // Commit transaction only if no errors occurred
-        await session.commitTransaction();
-        session.endSession();
+        // await session.commitTransaction();
+        // session.endSession();
 
-        console.log("email")
+        // console.log("email")
 
-        const pdfBuffer = await generateOrderInvoicePDF(updatedOrder);
-        const emailContent = await EmailHelper.createEmailContent(
-            //@ts-ignore
-            { userName: updatedOrder.user.name || "" },
-            'orderInvoice'
-        );
+        // const pdfBuffer = await generateOrderInvoicePDF(updatedOrder);
+        // const emailContent = await EmailHelper.createEmailContent(
+        //     //@ts-ignore
+        //     { userName: updatedOrder.user.name || "" },
+        //     'orderInvoice'
+        // );
 
-        const attachment = {
-            filename: `Invoice_${updatedOrder._id}.pdf`,
-            content: pdfBuffer,
-            encoding: 'base64',
-        };
+        // const attachment = {
+        //     filename: `Invoice_${updatedOrder._id}.pdf`,
+        //     content: pdfBuffer,
+        //     encoding: 'base64',
+        // };
 
-        await EmailHelper.sendEmail(
-            //@ts-ignore
-            updatedOrder.user.email,
-            emailContent,
-            "Order confirmed-Payment Success!",
-            attachment
-        );
+        // await EmailHelper.sendEmail(
+        //     //@ts-ignore
+        //     updatedOrder.user.email,
+        //     emailContent,
+        //     "Order confirmed-Payment Success!",
+        //     attachment
+        // );
 
         return true;
 

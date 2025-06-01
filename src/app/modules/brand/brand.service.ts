@@ -45,11 +45,23 @@ const getAllBrand = async (query: Record<string, unknown>) => {
 };
 
 const getAllBrandFromDB = async () => {
-   const result = await Brand.findWithProducts();
+    const result = await Brand.aggregate([
+    {
+        $match: { isActive: true }
+    },
+    {
+        $lookup: {
+            from: "products",
+            localField:"_id",
+            foreignField:"brand._id",
+            as: "products"
+        }
+    }
+    ]);
 
-   return {
-      result,
-   };
+
+
+   return result;
 };
 
 const updateBrandIntoDB = async (

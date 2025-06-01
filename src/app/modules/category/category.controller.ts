@@ -24,6 +24,7 @@ const createCategory = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllCategory = catchAsync(async (req, res) => {
+
   const result = await CategoryService.getAllCategory(req.query);
 
   sendResponse(res, {

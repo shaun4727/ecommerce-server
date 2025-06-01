@@ -4,7 +4,7 @@ import path from 'path';
 // Function to create a module with dynamic files
 const createModule = (moduleName: string): void => {
     const baseDir = path.join(__dirname, "../", 'app', 'modules', moduleName);
-    console.log(__dirname, " dir name")
+  
     // List of files to be created
     const files = [
         `${moduleName}.routes.ts`,
@@ -18,7 +18,7 @@ const createModule = (moduleName: string): void => {
     // Create the module directory
     if (!fs.existsSync(baseDir)) {
         fs.mkdirSync(baseDir, { recursive: true });
-        console.log(`Directory created: ${baseDir}`);
+   
     } else {
         console.log(`Directory already exists: ${baseDir}`);
     }
@@ -45,7 +45,7 @@ const createModule = (moduleName: string): void => {
             }
 
             fs.writeFileSync(filePath, content, 'utf-8');
-            console.log(`File created: ${filePath}`);
+ 
         } else {
             console.log(`File already exists: ${filePath}`);
         }

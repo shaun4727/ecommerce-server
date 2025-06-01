@@ -55,7 +55,7 @@ const getAllCoupon = async (query: Record<string, unknown>) => {
 };
 
 const updateCoupon = async (payload: Partial<ICoupon>, couponCode: string) => {
-   console.log({ payload, couponCode });
+
 
    const currentDate = new Date();
 

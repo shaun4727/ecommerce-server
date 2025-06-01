@@ -40,7 +40,7 @@ const getBrandsWithProducts = catchAsync(async (req, res) => {
       statusCode: StatusCodes.OK,
       success: true,
       message: 'Brands are retrieved successfully',
-      data: result.result,
+      data: result,
    });
 });
 

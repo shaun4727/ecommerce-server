@@ -6,6 +6,7 @@ import sendResponse from "../../utils/sendResponse";
 import { StatusCodes } from "http-status-codes";
 
 const createOrder = catchAsync(async (req: Request, res: Response) => {
+
   const result = await OrderService.createOrder(
     req.body,
     req.user as IJwtPayload

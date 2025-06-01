@@ -31,28 +31,58 @@ const brandSchema = new Schema<IBrand,BrandModel>(
 
 brandSchema.statics.findWithProducts = async function (limit = 8) {
   const brandsWithProducts = await this.aggregate([
-    {
-      $lookup: {
-        from: 'products',
-        localField: '_id',
-        foreignField: 'brand',
-        as: 'products',
-      },
-    },
-    {
-      $match: {
-        'products.0': { $exists: true },
-      },
-    },
-    {
-      $limit: limit,
-    },
-    {
-      $project: {
-        products: 0, // exclude products array if not needed
-      },
-    },
-  ]);
+                {
+                    $lookup: {
+                    from: "products",
+                    // let: { brandId: "$_id" },
+                    localField: "_id",
+                    foreignField:"brand._id",
+                    // pipeline: [
+                    //     {
+                    //     $match: {
+                    //         $expr: {
+                    //         $eq: ["$brand._id", "$$brandId"]
+                    //         }
+                    //     }
+                    //     }
+                    // ],
+                    as: "products"
+                    }
+                },
+                {
+                    $unwind: '$products'
+                },
+                {
+                    $project: {
+                        products: 1
+                    }
+                }
+
+                    
+    //   $lookup: {
+    //     from: 'courses',
+    //     localField: 'course',
+    //     foreignField: '_id',
+    //     as: 'enrolledCourseData',
+    //   },
+    // },
+    // {
+    //   $unwind: '$enrolledCourseData',
+    // },
+    // {
+    //   $group: {
+    //     _id: null,
+    //     totalEnrolledCredits: { $sum: '$enrolledCourseData.credits' },
+    //   },
+    // },
+    // {
+    //   $project: {
+    //     _id: 0,
+    //     totalEnrolledCredits: 1,
+    //   },
+    // },
+            ]);
+
 
   return brandsWithProducts;
 };

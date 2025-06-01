@@ -12,7 +12,7 @@ export interface IProduct extends Document {
   imageUrls: string[];
   isActive: boolean;
   shop: Types.ObjectId;
-  brand: Types.ObjectId;
+  brand: {_id:Types.ObjectId,name:string;};
   averageRating?: number;
   ratingCount?: number;
   availableColors: string[];

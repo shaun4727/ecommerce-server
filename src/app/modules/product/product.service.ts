@@ -115,8 +115,10 @@ const getAllProduct = async (query: Record<string, unknown>) => {
       ...pQuery
    } = query;
 
+      
    // Build the filter object
    const filter: Record<string, any> = {};
+
 
    // Filter by categories
    if (categories) {
@@ -125,7 +127,7 @@ const getAllProduct = async (query: Record<string, unknown>) => {
          : Array.isArray(categories)
             ? categories
             : [categories];
-      filter.category = { $in: categoryArray };
+      filter['category._id'] = { $in: categoryArray };
    }
 
 
@@ -136,7 +138,8 @@ const getAllProduct = async (query: Record<string, unknown>) => {
          : Array.isArray(brands)
             ? brands
             : [brands]
-      filter.brand = { $in: brandArray };
+
+      filter['brand._id'] = { $in: brandArray };
    }
 
    // Filter by in stock/out of stock
@@ -204,53 +207,55 @@ const getAllProduct = async (query: Record<string, unknown>) => {
 
 
 const getTrendingProducts = async (limit: number) => {
-   const now = new Date();
-   const last30Days = new Date(now.setDate(now.getDate() - 30));
+//    const now = new Date();
+//    const last30Days = new Date(now.setDate(now.getDate() - 30));
 
-   const trendingProducts = await Order.aggregate([
-      {
-         $match: {
-            createdAt: { $gte: last30Days },
-         },
-      },
-      {
-         $unwind: '$products',
-      },
-      {
-         $group: {
-            _id: '$products.product',
-            orderCount: { $sum: '$products.quantity' },
-         },
-      },
-      {
-         $sort: { orderCount: -1 },
-      },
-      {
-         $limit: limit || 10,
-      },
-      {
-         $lookup: {
-            from: 'products',
-            localField: '_id',
-            foreignField: '_id',
-            as: 'productDetails',
-         },
-      },
-      {
-         $unwind: '$productDetails',
-      },
-      {
-         $project: {
-            _id: 0,
-            productId: '$_id',
-            orderCount: 1,
-            name: '$productDetails.name',
-            price: '$productDetails.price',
-            offer: '$productDetails.offer',
-            imageUrls: '$productDetails.imageUrls',
-         },
-      },
-   ]);
+//    const trendingProducts = await Order.aggregate([
+//       {
+//          $match: {
+//             createdAt: { $gte: last30Days },
+//          },
+//       },
+//       {
+//          $unwind: '$products',
+//       },
+//       {
+//          $group: {
+//             _id: '$products.product',
+//             orderCount: { $sum: '$products.quantity' },
+//          },
+//       },
+//       {
+//          $sort: { orderCount: -1 },
+//       },
+//       {
+//          $limit: limit || 10,
+//       },
+//       {
+//          $lookup: {
+//             from: 'products',
+//             localField: '_id',
+//             foreignField: '_id',
+//             as: 'productDetails',
+//          },
+//       },
+//       {
+//          $unwind: '$productDetails',
+//       },
+//       {
+//          $project: {
+//             _id: 0,
+//             productId: '$_id',
+//             orderCount: 1,
+//             name: '$productDetails.name',
+//             price: '$productDetails.price',
+//             offer: '$productDetails.offer',
+//             imageUrls: '$productDetails.imageUrls',
+//          },
+//       },
+//    ]);
+
+    const trendingProducts = Product.find().limit(6);
 
    return trendingProducts;
 };

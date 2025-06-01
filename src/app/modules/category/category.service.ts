@@ -27,10 +27,20 @@ const createCategory = async (
 };
 
 const getAllCategory = async (query: Record<string, unknown>) => {
-  const categoryQuery = new QueryBuilder(
-    Category.find().populate('parent'),
-    query,
-  )
+
+    if(Object.entries(query).length === 0){
+        const result = await Category.find();
+        const meta = { page: 1, limit: 0, total: 0, totalPage: 1 };
+
+        return {
+            meta: meta,
+            result: result
+        }
+    }
+    const categoryQuery = new QueryBuilder(
+        Category.find().populate('parent'),
+        query,
+    )
     .search(['name', 'slug'])
     .filter()
     .sort()
