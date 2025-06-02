@@ -26,15 +26,22 @@ class QueryBuilder<T> {
     }
 
     filter() {
-        const queryObj = { ...this.query }; // copy
+        // const queryObj = { ...this.query }; // copy
 
-        // Filtering
+        // // Filtering
+        // const excludeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
+
+        // excludeFields.forEach((el) => delete queryObj[el]);
+
+        // this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
+        const queryObj = { ...this.query };
         const excludeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
-
         excludeFields.forEach((el) => delete queryObj[el]);
 
-        this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
-
+        this.modelQuery = this.modelQuery.find({
+            ...queryObj,
+            ...this.filter // ← merged in rating logic
+        });
         return this;
     }
 
@@ -83,6 +90,10 @@ class QueryBuilder<T> {
         if (minPrice !== undefined) priceFilter.$gte = minPrice;
         if (maxPrice !== undefined) priceFilter.$lte = maxPrice;
 
+
+
+        
+        
         if (minPrice !== undefined || maxPrice !== undefined) {
             this.modelQuery = this.modelQuery.find({
                 price: priceFilter,

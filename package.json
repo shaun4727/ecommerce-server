@@ -1,9 +1,9 @@
 {
-  "name": "nextmart-server",
+  "name": "e-server",
   "version": "1.0.0",
   "description": "A e-commerce web application server.",
   "main": "server.js",
-  "repository": "https://github.com/Programming-Hero-Next-Level-Development/NextMart-Server.git",
+  "repository": "https://github.com/Programming-Hero-Next-Level-Development/EMart-Server.git",
   "author": "Next Level Web Development Team",
   "license": "MIT",
   "scripts": {

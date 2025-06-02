@@ -147,12 +147,32 @@ const getAllProduct = async (query: Record<string, unknown>) => {
       filter.stock = inStock === 'true' ? { $gt: 0 } : 0;
    }
 
+
    // Filter by ratings
    if (ratings) {
       const ratingArray = typeof ratings === 'string'
          ? ratings.split(',')
          : Array.isArray(ratings) ? ratings : [ratings];
-      filter.averageRating = { $in: ratingArray.map(Number) };
+
+      // filter.averageRating = { $in: ratingArray.map(Number) };
+      const ratingConditions = ratingArray.map((ratingStr) => {
+  const rating = Number(ratingStr);
+
+  // Ensure rating is a number and in valid range
+  if (isNaN(rating) || rating < 1 || rating > 5) return null;
+
+  // Build condition like: { averageRating: { $gte: 4, $lt: 5 } }
+      return {
+         averageRating: {
+            $gte: rating,
+               $lt: rating === 5 ? 6 : rating + 1, // Cap upper bound to < 6 for safety
+            },
+         };
+         }).filter(Boolean); // remove nulls
+
+         if (ratingConditions.length) {
+            filter.$or = ratingConditions;
+         }
    }
 
    const productQuery = new QueryBuilder(

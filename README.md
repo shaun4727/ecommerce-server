@@ -1,7 +1,7 @@
-# NextMart - Server
+# E - Server
 
 
-NextMart is a robust and scalable backend solution for an e-commerce platform. It handles user authentication, product management, order processing, payment integration, and more. Built with Node.js, Express.js, and MongoDB, this project is designed for high performance and flexibility.
+E-Mart is a robust and scalable backend solution for an e-commerce platform. It handles user authentication, product management, order processing, payment integration, and more. Built with Node.js, Express.js, and MongoDB, this project is designed for high performance and flexibility.
 
 ---
 
@@ -124,5 +124,5 @@ CANCEL_URL="<your_cancel_url>"
 
 [https://documenter.getpostman.com/view/28371413/2sAYQXpCyd](https://documenter.getpostman.com/view/28371413/2sAYQXpCyd)
 
-**NextMart** is a single-vendor e-commerce platform. This repository contains the server-side implementation, providing robust backend services and APIs to power the platform.
+**EMart** is a single-vendor e-commerce platform. This repository contains the server-side implementation, providing robust backend services and APIs to power the platform.
 
