@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "A e-commerce web application server.",
   "main": "server.js",
-  "repository": "https://github.com/Programming-Hero-Next-Level-Development/EMart-Server.git",
-  "author": "Next Level Web Development Team",
+  "repository": "https://github.com/shaun4727/ecommerce-server.git",
+  "author": "SomeOne",
   "license": "MIT",
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
@@ -39,6 +39,7 @@
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/multer": "^1.4.12",
     "@types/node": "^22.10.1",
     "@types/pdfkit": "^0.13.8",
