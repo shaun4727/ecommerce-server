@@ -122,7 +122,7 @@ CANCEL_URL="<your_cancel_url>"
 
 ## API Documentation
 
-[https://documenter.getpostman.com/view/28371413/2sAYQXpCyd](https://documenter.getpostman.com/view/28371413/2sAYQXpCyd)
+[API Documentation](https://crimson-water-321575.postman.co/workspace/My-Workspace~a466a491-1057-438f-8645-db5512137214/collection/23489586-72a63048-aaf1-4b71-8fd4-7aee220595e1?action=share&creator=23489586)
 
 **EMart** is a single-vendor e-commerce platform. This repository contains the server-side implementation, providing robust backend services and APIs to power the platform.
 
