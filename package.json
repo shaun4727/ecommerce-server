@@ -7,11 +7,11 @@
   "author": "Next Level Web Development Team",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/server.js",
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "tsc",
-    "create-module": "npx ts-node src/scripts/createModule.ts",
-    "deploy": "yarn build && vercel && vercel --prod"
+    "lint": "eslint --ext .js,.ts .",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
+    "dev": "node ./dist/server.js",
+    "start": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc"
   },
   "dependencies": {
     "@types/nodemailer": "^6.4.17",
