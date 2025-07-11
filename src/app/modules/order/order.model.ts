@@ -1,5 +1,5 @@
 import { Schema, Types, model } from "mongoose";
-import { IOrder } from "./order.interface";
+import { IAgentOrder, IOrder } from "./order.interface";
 import { Product } from "../product/product.model";
 import { Coupon } from "../coupon/coupon.model";
 import AppError from "../../errors/appError";
@@ -157,3 +157,38 @@ orderSchema.pre("validate", async function (next) {
 });
 
 export const Order = model<IOrder>("Order", orderSchema);
+
+
+/**
+ * Agent Schema definition
+ */
+
+
+
+
+
+// 2. Define the Mongoose Schema
+const AgentOrderSchema: Schema = new Schema<IAgentOrder>({
+    orderId: {
+        type: Schema.Types.ObjectId, // Use Mongoose's ObjectId type
+        required: true,             // Assuming orderId is mandatory
+        unique: true,               // If each agent order entry refers to a unique core order
+        ref: 'Order'                // Optional: If this orderId refers to a separate 'Order' collection
+    },
+    destination: {
+        type: String,               // JavaScript String maps to Mongoose String
+        required: true,
+        trim: true                  // Removes whitespace from both ends of a string
+    },
+    status: {
+        type: String,
+        enum: ['Picked', 'Delivered', 'Assigned'],
+        required: true
+    },
+}, {
+    timestamps: true // Adds createdAt and updatedAt fields automatically
+});
+
+// 3. Create and export the Mongoose Model
+export const AgentOrder = model<IAgentOrder>('AgentOrder', AgentOrderSchema);
+

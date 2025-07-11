@@ -6,6 +6,7 @@ export interface IOrderProduct {
   quantity: number;
   unitPrice: number;
   color: string;
+  type: string;
 }
 
 export interface IOrder extends Document {
@@ -24,4 +25,12 @@ export interface IOrder extends Document {
   createdAt?: Date;
   updatedAt?: Date;
   payment?: IPayment | null;
+}
+
+export interface IAgentOrder{
+    orderId: Types.ObjectId;
+    destination: string;
+    status:'Picked' | 'Delivered' | 'Assigned';
+    createdAt?: Date;
+    updatedAt?: Date;
 }

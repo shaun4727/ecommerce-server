@@ -29,6 +29,11 @@ router.post(
     auth(UserRole.USER,UserRole.ADMIN),
     OrderController.createOrder
 )
+router.post(
+    '/assign-agent',
+    auth(UserRole.ADMIN),
+    OrderController.assignOrder
+)
 
 router.patch(
     '/:orderId/status',

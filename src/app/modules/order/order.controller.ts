@@ -77,10 +77,26 @@ const changeOrderStatus = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+
+const assignOrder = catchAsync(async (req: Request, res: Response) => {
+
+  const result = await OrderService.assignOrderToAgent(
+    req.body
+  );
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: "Order assigned successfully",
+    data: result,
+  });
+});
+
 export const OrderController = {
   createOrder,
   getMyShopOrders,
   getOrderDetails,
   getMyOrders,
   changeOrderStatus,
+  assignOrder
 };

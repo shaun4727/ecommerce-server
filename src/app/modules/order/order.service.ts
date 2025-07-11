@@ -1,7 +1,7 @@
 import mongoose, { Types } from "mongoose";
 import { IJwtPayload } from "../auth/auth.interface";
 import { Coupon } from "../coupon/coupon.model";
-import { IOrder } from "./order.interface";
+import { IAgentOrder, IOrder } from "./order.interface";
 import { Order } from "./order.model";
 import { Product } from "../product/product.model";
 import { Payment } from "../payment/payment.model";
@@ -100,7 +100,7 @@ const createOrder = async (
       });
       result = { paymentUrl: result };
     } else {
-      result = order;
+      result = null;
     }
 
     // Commit the transaction
@@ -252,10 +252,22 @@ const changeOrderStatus = async (
   return order;
 };
 
+const assignOrderToAgent = async (assignment:IAgentOrder) => {
+    // assign the order
+    const assignedOrder = new Order({
+      ...assignment
+    });
+
+    const createdOrder = await assignedOrder.save();
+    const result = createdOrder.save();
+    return result;
+}
+
 export const OrderService = {
   createOrder,
   getMyShopOrders,
   getOrderDetails,
   getMyOrders,
   changeOrderStatus,
+  assignOrderToAgent
 };
