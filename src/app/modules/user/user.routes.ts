@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { UserController } from './user.controller';
 import clientInfoParser from '../../middleware/clientInfoParser';
 import validateRequest from '../../middleware/validateRequest';
@@ -28,6 +28,12 @@ router.patch(
    parseBody,
    validateRequest(UserValidation.customerInfoValidationSchema),
    UserController.updateProfile
+);
+
+router.patch(
+   '/update-agent-status/:agentId',
+   auth(UserRole.AGENT),
+   UserController.updateAgentStatus
 );
 
 router.patch(

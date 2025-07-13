@@ -24,6 +24,13 @@ router.get(
     OrderController.getOrderDetails
 );
 
+
+router.get(
+    '/agent-orders/:agentId',
+    auth(UserRole.AGENT,UserRole.ADMIN),
+    OrderController.getAgentOrders
+);
+
 router.post(
     '/',
     auth(UserRole.USER,UserRole.ADMIN),
@@ -32,7 +39,7 @@ router.post(
 router.post(
     '/assign-agent',
     auth(UserRole.ADMIN),
-    OrderController.assignOrder
+    OrderController.assignAgentToOrder
 )
 
 router.patch(

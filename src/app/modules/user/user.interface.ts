@@ -12,7 +12,7 @@ export interface IUser extends Document {
    email: string;
    password: string;
    name: string;
-   role: UserRole;
+   role: UserRole.AGENT | UserRole.USER ;
    hasShop: boolean;
    clientInfo: {
       device: 'pc' | 'mobile'; // Device type
@@ -23,6 +23,7 @@ export interface IUser extends Document {
       userAgent?: string; // Optional user agent string
    };
    lastLogin: Date;
+   picked?: boolean;
    isActive: boolean;
    otpToken?: string | null;
    createdAt: Date;
