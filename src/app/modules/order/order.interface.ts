@@ -30,7 +30,7 @@ export interface IOrder extends Document {
 
 export interface IAgentOrder {
 	orderId: Types.ObjectId;
-	destination: string;
+	destination: { city: string; area: string; zip_code: string; street_or_building_name: string };
 	agentId: Types.ObjectId;
 	status: 'Picked' | 'Delivered' | 'Assigned';
 	createdAt?: Date;
