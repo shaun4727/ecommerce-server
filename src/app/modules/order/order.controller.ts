@@ -11,7 +11,7 @@ const createOrder = catchAsync(async (req: Request, res: Response) => {
 	sendResponse(res, {
 		statusCode: StatusCodes.CREATED,
 		success: true,
-		message: 'Order created succesfully',
+		message: 'Order created successfully',
 		data: result,
 	});
 });
@@ -58,7 +58,7 @@ const changeOrderStatus = catchAsync(async (req: Request, res: Response) => {
 	sendResponse(res, {
 		statusCode: StatusCodes.OK,
 		success: true,
-		message: 'Order status changed succesfully',
+		message: 'Order status changed successfully',
 		data: result,
 	});
 });
@@ -86,6 +86,18 @@ const getAgentOrders = catchAsync(async (req: Request, res: Response) => {
 		data: result,
 	});
 });
+const getDeliveryAddress = catchAsync(async (req: Request, res: Response) => {
+	const { agentId } = req.params;
+
+	const result = await OrderService.getDeliveryAddressFromDB(agentId);
+
+	sendResponse(res, {
+		statusCode: StatusCodes.OK,
+		success: true,
+		message: 'Delivery address retrieved successfully',
+		data: result,
+	});
+});
 
 export const OrderController = {
 	createOrder,
@@ -95,4 +107,5 @@ export const OrderController = {
 	changeOrderStatus,
 	assignAgentToOrder,
 	getAgentOrders,
+	getDeliveryAddress,
 };

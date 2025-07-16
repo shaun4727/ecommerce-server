@@ -9,6 +9,13 @@ export interface IOrderProduct {
 	type: string;
 }
 
+export interface IOrderAddress {
+	city: string;
+	zip_code: string;
+	street_or_building_name: string;
+	area: string;
+}
+
 export interface IOrder extends Document {
 	user: Types.ObjectId;
 	shop: Types.ObjectId;
@@ -19,8 +26,8 @@ export interface IOrder extends Document {
 	deliveryCharge: number;
 	finalAmount: number;
 	status: 'Pending' | 'Processing' | 'Completed' | 'Cancelled' | 'Picked';
-	shippingAddress: string;
-	paymentMethod: 'Cash' | 'Card' | 'Online';
+	shippingAddress: IOrderAddress;
+	paymentMethod: 'COD' | 'Online';
 	paymentStatus: 'Pending' | 'Paid' | 'Failed';
 	createdAt?: Date;
 	updatedAt?: Date;

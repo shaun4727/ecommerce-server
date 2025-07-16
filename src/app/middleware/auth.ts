@@ -21,6 +21,7 @@ const auth = (...requiredRoles: UserRole[]) => {
 			const { role, email } = decoded;
 
 			const user = await User.findOne({ email, role, isActive: true });
+
 			if (!user) {
 				throw new AppError(StatusCodes.NOT_FOUND, 'This user is not found!');
 			}

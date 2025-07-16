@@ -68,7 +68,12 @@ const orderSchema = new Schema<IOrder>(
 			default: 'Pending',
 		},
 		shippingAddress: {
-			type: String,
+			type: {
+				city: { type: String, required: true },
+				zip_code: { type: String, required: true },
+				street_or_building_name: { type: String, required: true },
+				area: { type: String, required: true },
+			},
 			required: true,
 		},
 		assigned: {
@@ -144,7 +149,7 @@ orderSchema.pre('validate', async function (next) {
 		}
 	}
 
-	const isDhaka = order?.shippingAddress?.toLowerCase()?.includes('dhaka');
+	const isDhaka = order?.shippingAddress?.city.toLowerCase()?.includes('dhaka');
 	const deliveryCharge = isDhaka ? 60 : 120;
 
 	order.totalAmount = totalAmount;
@@ -175,11 +180,16 @@ const AgentOrderSchema: Schema = new Schema<IAgentOrder>(
 		agentId: {
 			type: Schema.Types.ObjectId, // Use Mongoose's ObjectId type
 			required: true, // Assuming orderId is mandatory
-			unique: true, // If each agent order entry refers to a unique core order
 			ref: 'User', // Optional: If this orderId refers to a separate 'Order' collection
 		},
+
 		destination: {
-			type: String, // JavaScript String maps to Mongoose String
+			type: {
+				city: String,
+				zip_code: String,
+				street_or_building_name: String,
+				area: String,
+			}, // JavaScript String maps to Mongoose String
 			required: true,
 			trim: true, // Removes whitespace from both ends of a string
 		},

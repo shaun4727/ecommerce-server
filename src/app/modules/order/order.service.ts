@@ -229,16 +229,18 @@ const changeOrderStatus = async (orderId: string, status: string, authUser: IJwt
 
 const assignOrderToAgentIntoDB = async (assignment: IAgentOrder) => {
 	// assign the order
+	console.log('assignment', assignment);
+
 	const session = await mongoose.startSession();
 	session.startTransaction();
 	try {
 		const order = await Order.findById(assignment.orderId).session(session);
+
 		const assignedOrder = new AgentOrder({
 			...assignment,
 		});
 
 		const result = await assignedOrder.save({ session });
-
 		if (order) {
 			order.assigned = result._id;
 		}
@@ -269,6 +271,15 @@ const getAgentOrdersFromDB = async (agentId: string) => {
 		throw new err();
 	}
 };
+const getDeliveryAddressFromDB = async (agentId: string) => {
+	try {
+		const agentOrder = await AgentOrder.findOne({ agentId: agentId });
+
+		return agentOrder;
+	} catch (err: any) {
+		throw new err();
+	}
+};
 
 export const OrderService = {
 	createOrder,
@@ -278,4 +289,5 @@ export const OrderService = {
 	changeOrderStatus,
 	assignOrderToAgentIntoDB,
 	getAgentOrdersFromDB,
+	getDeliveryAddressFromDB,
 };
