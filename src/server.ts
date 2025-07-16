@@ -47,7 +47,7 @@ async function bootstrap() {
 
 		io = new socketServer(server, {
 			cors: {
-				origin: ['http://localhost:3000'],
+				origin: ['http://localhost:3000', 'https://ecommerce-project-ashy-two.vercel.app'],
 				credentials: true,
 			},
 		});

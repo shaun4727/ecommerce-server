@@ -15,9 +15,9 @@ export default function setupDeliveryTracking(io: Server, socket: Socket) {
 		// });
 
 		// Emit to clients (customer, admin, etc.)
-
-		io.to(orderId).emit('updateShipment', payload.location);
+		console.log('orderId', orderId, payload.location);
 		io.to(orderId).emit('share_with_user', payload.location);
+		io.to(orderId).emit('updateShipment', payload.location);
 	});
 	socket.on('join_order', ({ orderId }) => {
 		socket.join(orderId);
