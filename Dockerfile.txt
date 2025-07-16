@@ -1,7 +1,7 @@
 
 FROM node:20-alpine
 
-WORKDIR /application
+WORKDIR /
 
 COPY package*.json yarn.lock ./
 
@@ -11,6 +11,6 @@ COPY . .
 
 RUN yarn build
 
-EXPOSE 3001
+EXPOSE 5000
 
 CMD ["yarn", "dev"]
