@@ -11,7 +11,7 @@
 		"format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
 		"dev": "node ./dist/server.js",
 		"start": "ts-node-dev --respawn --transpile-only src/server.ts",
-		"build": "yarn install && tsc"
+		"build": "yarn install && npx tsc"
 	},
 	"dependencies": {
 		"@types/nodemailer": "^6.4.17",
