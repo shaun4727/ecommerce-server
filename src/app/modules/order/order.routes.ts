@@ -19,5 +19,10 @@ router.post('/assign-agent', auth(UserRole.ADMIN), OrderController.assignAgentTo
 
 router.patch('/:orderId/status', auth(UserRole.USER, UserRole.ADMIN), OrderController.changeOrderStatus);
 router.get('/get-delivery-address/:agentId', auth(UserRole.AGENT), OrderController.getDeliveryAddress);
+router.patch(
+	'/update-delivery-status/:orderId',
+	auth(UserRole.AGENT, UserRole.ADMIN),
+	OrderController.updateDeliveryStatus,
+);
 
 export const OrderRoutes = router;
