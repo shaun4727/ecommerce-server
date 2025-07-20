@@ -12,14 +12,14 @@ import router from './app/routes';
 const application: Application = express();
 
 // Middleware setup
-application.use(cors({ origin: 'https://ecommerce-project-ashy-two.vercel.app' }));
+application.use(cors({ origin: 'http://103.174.51.143:3000' }));
 application.use(cookieParser());
 application.use(express.json());
 application.use(express.urlencoded({ extended: true }));
 
 application.use('/api/v1', router);
 application.use((req, res, next) => {
-	res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+	res.header('Access-Control-Allow-Origin', 'http://103.174.51.143:3000');
 	res.header('Access-Control-Allow-Credentials', 'true');
 	res.header('Access-Control-Allow-Methods', 'GET, POST');
 	next();

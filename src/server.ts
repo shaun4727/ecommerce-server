@@ -45,9 +45,7 @@ async function bootstrap() {
 		 * code added for socket starts
 		 */
 		const allowedOrigins =
-			process.env.NODE_ENV === 'production'
-				? ['https://ecommerce-project-ashy-two.vercel.app']
-				: ['http://localhost:3000'];
+			process.env.NODE_ENV === 'production' ? ['http://103.174.51.143:3000'] : ['http://103.174.51.143:3000'];
 
 		io = new socketServer(server, {
 			cors: {
