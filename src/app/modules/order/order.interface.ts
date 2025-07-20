@@ -1,8 +1,10 @@
 import { Document, Types } from 'mongoose';
 import { IPayment } from '../payment/payment.interface';
+import { IProduct } from '../product/product.interface';
+import { IUser } from '../user/user.interface';
 
 export interface IOrderProduct {
-	product: Types.ObjectId;
+	product: IProduct;
 	quantity: number;
 	unitPrice: number;
 	color: string;
@@ -17,7 +19,7 @@ export interface IOrderAddress {
 }
 
 export interface IOrder extends Document {
-	user: Types.ObjectId;
+	user: IUser;
 	shop: Types.ObjectId;
 	products: IOrderProduct[];
 	coupon: Types.ObjectId | null;
