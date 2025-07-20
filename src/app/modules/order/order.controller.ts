@@ -111,6 +111,17 @@ const updateDeliveryStatus = catchAsync(async (req: Request, res: Response) => {
 	});
 });
 
+const getCustomerInvoice = catchAsync(async (req: Request, res: Response) => {
+	const invoiceDetail = await OrderService.getCustomerInvoiceFromDB(req.user?.userId);
+
+	sendResponse(res, {
+		statusCode: StatusCodes.OK,
+		success: true,
+		message: 'Invoice generated successfully',
+		data: invoiceDetail,
+	});
+});
+
 export const OrderController = {
 	createOrder,
 	getMyShopOrders,
@@ -121,4 +132,5 @@ export const OrderController = {
 	getAgentOrders,
 	getDeliveryAddress,
 	updateDeliveryStatus,
+	getCustomerInvoice,
 };

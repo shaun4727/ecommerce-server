@@ -10,7 +10,7 @@ router.get('/my-shop-orders', auth(UserRole.USER, UserRole.ADMIN), OrderControll
 
 router.get('/my-orders', auth(UserRole.USER, UserRole.ADMIN), OrderController.getMyOrders);
 
-router.get('/:orderId', auth(UserRole.USER, UserRole.ADMIN), OrderController.getOrderDetails);
+// router.get('/:orderId', auth(UserRole.USER, UserRole.ADMIN), OrderController.getOrderDetails);
 
 router.get('/agent-orders/:agentId', auth(UserRole.AGENT, UserRole.ADMIN), OrderController.getAgentOrders);
 
@@ -24,5 +24,7 @@ router.patch(
 	auth(UserRole.AGENT, UserRole.ADMIN),
 	OrderController.updateDeliveryStatus,
 );
+
+router.get('/get-customer-invoice', auth(UserRole.USER, UserRole.ADMIN), OrderController.getCustomerInvoice);
 
 export const OrderRoutes = router;
