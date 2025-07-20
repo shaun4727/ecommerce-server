@@ -43,7 +43,7 @@ const registerUser = async (userData: IUser) => {
 
 		return await AuthService.loginUser({
 			email: createdUser.email,
-			password: userData.password,
+			password: userData.password!,
 			clientInfo: userData.clientInfo,
 		});
 	} catch (error) {

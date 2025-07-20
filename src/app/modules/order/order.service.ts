@@ -16,7 +16,6 @@ import { AgentOrder, Order } from './order.model';
 const createOrder = async (orderData: Partial<IOrder>, authUser: IJwtPayload) => {
 	const session = await mongoose.startSession();
 	session.startTransaction();
-
 	try {
 		if (orderData.products) {
 			for (const productItem of orderData.products) {
@@ -229,7 +228,6 @@ const changeOrderStatus = async (orderId: string, status: string, authUser: IJwt
 
 const assignOrderToAgentIntoDB = async (assignment: IAgentOrder) => {
 	// assign the order
-	console.log('assignment', assignment);
 
 	const session = await mongoose.startSession();
 	session.startTransaction();
@@ -273,10 +271,50 @@ const getAgentOrdersFromDB = async (agentId: string) => {
 };
 const getDeliveryAddressFromDB = async (agentId: string) => {
 	try {
-		const agentOrder = await AgentOrder.findOne({ agentId: agentId });
+		const agentOrder = await AgentOrder.findOne({ agentId: agentId, status: 'Picked' });
 
 		return agentOrder;
 	} catch (err: any) {
+		throw new err();
+	}
+};
+
+const updateDeliveryStatusIntoDB = async (orderId: string, userId: string) => {
+	let session: mongoose.ClientSession | null = null;
+	try {
+		session = await mongoose.startSession();
+		session.startTransaction();
+
+		const agentOrder = await AgentOrder.findOne({ orderId: orderId, status: 'Picked' }).session(session);
+		if (agentOrder) {
+			agentOrder.status = 'Delivered';
+		}
+
+		await agentOrder?.save({ session });
+
+		// updating order
+		const order = await Order.findById(orderId).session(session);
+		if (order) {
+			order.status = 'Completed';
+			order.paymentStatus = 'Paid';
+		}
+		await order?.save({ session });
+
+		// update user status
+		const user = await User.findById(userId).session(session);
+
+		if (user) {
+			user.picked = false;
+			await user.save({ session });
+		}
+
+		await session.commitTransaction();
+		session.endSession();
+	} catch (err: any) {
+		if (session) {
+			await session.abortTransaction();
+			session.endSession();
+		}
 		throw new err();
 	}
 };
@@ -290,4 +328,5 @@ export const OrderService = {
 	assignOrderToAgentIntoDB,
 	getAgentOrdersFromDB,
 	getDeliveryAddressFromDB,
+	updateDeliveryStatusIntoDB,
 };

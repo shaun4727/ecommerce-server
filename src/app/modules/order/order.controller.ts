@@ -88,7 +88,6 @@ const getAgentOrders = catchAsync(async (req: Request, res: Response) => {
 });
 const getDeliveryAddress = catchAsync(async (req: Request, res: Response) => {
 	const { agentId } = req.params;
-
 	const result = await OrderService.getDeliveryAddressFromDB(agentId);
 
 	sendResponse(res, {
@@ -96,6 +95,19 @@ const getDeliveryAddress = catchAsync(async (req: Request, res: Response) => {
 		success: true,
 		message: 'Delivery address retrieved successfully',
 		data: result,
+	});
+});
+
+const updateDeliveryStatus = catchAsync(async (req: Request, res: Response) => {
+	const { orderId } = req.params;
+
+	await OrderService.updateDeliveryStatusIntoDB(orderId, req.user?.userId);
+
+	sendResponse(res, {
+		statusCode: StatusCodes.OK,
+		success: true,
+		message: 'Order status updated successfully',
+		data: null,
 	});
 });
 
@@ -108,4 +120,5 @@ export const OrderController = {
 	assignAgentToOrder,
 	getAgentOrders,
 	getDeliveryAddress,
+	updateDeliveryStatus,
 };

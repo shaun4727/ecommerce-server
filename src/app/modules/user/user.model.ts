@@ -82,7 +82,7 @@ userSchema.pre('save', async function (next) {
 	if (!this.isModified('password')) {
 		return next();
 	}
-	user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt_rounds));
+	user.password! = await bcrypt.hash(user.password!, Number(config.bcrypt_salt_rounds));
 
 	next();
 });
@@ -94,7 +94,9 @@ userSchema.post('save', function (doc, next) {
 
 userSchema.set('toJSON', {
 	transform: (_doc, ret) => {
-		delete ret.password;
+		if (ret.password) {
+			delete ret.password;
+		}
 		return ret;
 	},
 });

@@ -44,10 +44,15 @@ async function bootstrap() {
 		/**
 		 * code added for socket starts
 		 */
+		const allowedOrigins =
+			process.env.NODE_ENV === 'production'
+				? ['https://ecommerce-project-ashy-two.vercel.app']
+				: ['http://localhost:3000'];
 
 		io = new socketServer(server, {
 			cors: {
-				origin: ['http://localhost:3000'],
+				origin: allowedOrigins,
+				methods: ['GET', 'POST'],
 				credentials: true,
 			},
 		});
