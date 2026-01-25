@@ -52,7 +52,7 @@ const productSchema = new Schema<IProduct>(
       shop: {
          type: Schema.Types.ObjectId,
          ref: 'Shop',
-         required: [true, 'User who created the product is required'],
+         required: [true, 'Shop ID is required'],
       },
       brand: {
          _id: {
