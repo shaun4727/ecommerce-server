@@ -25,4 +25,13 @@ router.post(
     ShopController.createShop
 )
 
+router.put(
+    '/',
+    auth(UserRole.ADMIN),
+    multerUpload.single('logo'),
+    parseBody,
+    validateRequest(ShopValidation.createShopValidation),
+    ShopController.updateShop
+)
+
 export const ShopRoutes = router;

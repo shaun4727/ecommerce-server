@@ -21,6 +21,23 @@ const createShop = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateShop = catchAsync(async (req: Request, res: Response) => {
+
+  const result = await ShopService.updateShop(
+    req.body.id,
+    req.body,
+    req.file as IImageFile,
+    req.user as IJwtPayload
+  );
+
+  sendResponse(res, {
+    statusCode: StatusCodes.CREATED,
+    success: true,
+    message: 'Shop created successfully!',
+    data: result
+  });
+});
+
 const getMyShop = catchAsync(async (req: Request, res: Response) => {
   const result = await ShopService.getMyShop(
     req.user as IJwtPayload
@@ -36,5 +53,6 @@ const getMyShop = catchAsync(async (req: Request, res: Response) => {
 
 export const ShopController = {
   createShop,
-  getMyShop
+  getMyShop,
+  updateShop
 }

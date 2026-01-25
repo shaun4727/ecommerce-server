@@ -53,6 +53,60 @@ const createShop = async (shopData: Partial<IShop>, logo: IImageFile, authUser: 
   }
 };
 
+
+const updateShop = async (
+  shopId: string, 
+  shopData: Partial<IShop>, 
+  logo: IImageFile, 
+  authUser: IJwtPayload
+) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    // 1. Verify User and Shop Ownership
+    const existingShop = await Shop.findById(shopId).session(session);
+
+    if (!existingShop) {
+      throw new AppError(StatusCodes.NOT_FOUND, 'Shop not found!');
+    }
+
+    // Ensure the person updating is the owner
+    if (existingShop.user!.toString() !== authUser.userId) {
+      throw new AppError(StatusCodes.FORBIDDEN, 'You are not authorized to update this shop!');
+    }
+
+    // 2. Handle Logo update
+    // Only update the logo field if a new file was actually uploaded
+    if (logo) {
+      shopData.logo = logo.path;
+    }
+
+    // 3. Perform the update
+    // We use { new: true } to return the modified document
+    // We use { runValidators: true } to ensure Zod-like validation happens at DB level
+    const updatedShop = await Shop.findByIdAndUpdate(
+      shopId,
+      { $set: shopData },
+      { new: true, runValidators: true, session }
+    );
+
+    if (!updatedShop) {
+      throw new AppError(StatusCodes.INTERNAL_SERVER_ERROR, 'Failed to update shop!');
+    }
+
+    // Commit the transaction
+    await session.commitTransaction();
+    session.endSession();
+
+    return updatedShop;
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    throw error;
+  }
+};
+
 const getMyShop = async (authUser: IJwtPayload) => {
   const existingUser = await User.checkUserExist(authUser.userId);
   if (!existingUser.hasShop) {
@@ -65,5 +119,6 @@ const getMyShop = async (authUser: IJwtPayload) => {
 
 export const ShopService = {
   createShop,
-  getMyShop
+  getMyShop,
+  updateShop
 }
