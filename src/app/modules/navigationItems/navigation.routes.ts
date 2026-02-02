@@ -26,14 +26,12 @@ router.post(
 
 router.get(
   '/get-menu',
-  auth(UserRole.ADMIN, UserRole.USER),
   NavigationController.getNavigationMenusController
 );
 
 
 router.get(
   '/get-menu-not-dashboard',
-  auth(UserRole.ADMIN, UserRole.USER),
   NavigationController.getNavigationMenus
 );
 
