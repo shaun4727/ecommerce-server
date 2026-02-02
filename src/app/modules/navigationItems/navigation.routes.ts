@@ -10,13 +10,30 @@ const router = Router();
 
 
 
-
-
 router.post(
   '/create-menu',
   auth(UserRole.ADMIN, UserRole.USER),
   validateRequest(createNavigationValidationSchema),
   NavigationController.navigationCreation
+);
+
+router.post(
+  '/update-nav-menu',
+  auth(UserRole.ADMIN, UserRole.USER),
+  NavigationController.navigationUpdateController
+);
+
+
+router.get(
+  '/get-menu',
+  auth(UserRole.ADMIN, UserRole.USER),
+  NavigationController.getNavigationMenusController
+);
+
+router.delete(
+  '/delete-menu/:id',
+  auth(UserRole.ADMIN, UserRole.USER),
+  NavigationController.deleteNavigationMenusController
 );
 
 export const NavigationRoutes = router;

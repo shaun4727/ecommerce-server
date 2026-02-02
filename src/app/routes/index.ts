@@ -11,12 +11,17 @@ import { ShopRoutes } from '../modules/shop/shop.routes';
 import { ReviewRoutes } from '../modules/review/review.routes';
 import { FlashSaleRoutes } from '../modules/flashSell/flashSale.routes';
 import { MetaRoutes } from '../modules/meta/meta.route';
+import { NavigationRoutes } from '../modules/navigationItems/navigation.routes';
 const router = Router();
 
 const moduleRoutes = [
    {
       path: '/user',
       route: UserRoutes,
+   },
+   {
+      path: '/navigation',
+      route: NavigationRoutes,
    },
    {
       path: '/auth',
