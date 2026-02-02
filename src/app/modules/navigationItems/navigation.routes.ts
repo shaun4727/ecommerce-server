@@ -30,6 +30,13 @@ router.get(
   NavigationController.getNavigationMenusController
 );
 
+
+router.get(
+  '/get-menu-not-dashboard',
+  auth(UserRole.ADMIN, UserRole.USER),
+  NavigationController.getNavigationMenus
+);
+
 router.delete(
   '/delete-menu/:id',
   auth(UserRole.ADMIN, UserRole.USER),

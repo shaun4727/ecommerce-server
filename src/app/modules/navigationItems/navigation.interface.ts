@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 export interface INavItem {
- 
+   _id:string;
   data:{
     title: string;
     type?: 'link' | 'category' | 'mega-menu'; 

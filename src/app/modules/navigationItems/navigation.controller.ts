@@ -25,23 +25,37 @@ const navigationCreation = catchAsync(async (req: Request, res: Response) => {
 
 const navigationUpdateController = catchAsync(async (req: Request, res: Response) => {
 
-    // const result = await NavigationService.createNavigation(
-    // req.body
-    // );
+    const result = await NavigationService.updateNavigationService(
+    req.body
+    );
     console.log(req.body);
 
-//   sendResponse(res, {
-//     statusCode: StatusCodes.OK,
-//     success: true,
-//     message: 'Menu updated successfully!',
-//     data: result,
-//   });
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Menu updated successfully!',
+    data: result,
+  });
 });
 
 
 const getNavigationMenusController = catchAsync(async (req: Request, res: Response) => {
 
     const result = await NavigationService.getNavigationMenuService();
+
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Menu retrieved successfully!',
+    data: result,
+  });
+});
+
+
+const getNavigationMenus = catchAsync(async (req: Request, res: Response) => {
+
+  const result = await NavigationService.getNavigationMenuForWebService();
 
 
   sendResponse(res, {
@@ -71,5 +85,6 @@ export const NavigationController = {
     navigationCreation,
     getNavigationMenusController,
     deleteNavigationMenusController,
-    navigationUpdateController
+    navigationUpdateController,
+    getNavigationMenus
 }
