@@ -12,7 +12,7 @@
 		"dev": "node ./dist/server.js",
 		"start": "node ./dist/server.js",
 		"development": "ts-node-dev --respawn --transpile-only src/server.ts",
-		"build": "yarn install && tsc"
+		"build": "npm install && tsc"
 	},
 	"dependencies": {
 		"@types/nodemailer": "^6.4.17",
