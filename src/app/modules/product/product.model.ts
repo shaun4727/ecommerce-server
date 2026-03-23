@@ -26,6 +26,10 @@ const productSchema = new Schema<IProduct>(
          required: [true, 'Product price is required'],
          min: 0,
       },
+      offerPrice: {
+         type: Number,
+         min: 0,
+      },
       stock: {
          type: Number,
          required: [true, 'Product stock is required'],

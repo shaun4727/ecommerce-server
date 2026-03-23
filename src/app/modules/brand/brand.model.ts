@@ -57,30 +57,6 @@ brandSchema.statics.findWithProducts = async function (limit = 8) {
                         products: 1
                     }
                 }
-
-                    
-    //   $lookup: {
-    //     from: 'courses',
-    //     localField: 'course',
-    //     foreignField: '_id',
-    //     as: 'enrolledCourseData',
-    //   },
-    // },
-    // {
-    //   $unwind: '$enrolledCourseData',
-    // },
-    // {
-    //   $group: {
-    //     _id: null,
-    //     totalEnrolledCredits: { $sum: '$enrolledCourseData.credits' },
-    //   },
-    // },
-    // {
-    //   $project: {
-    //     _id: 0,
-    //     totalEnrolledCredits: 1,
-    //   },
-    // },
             ]);
 
 

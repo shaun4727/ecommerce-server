@@ -2,14 +2,17 @@
 import http from 'http';
 import mongoose from 'mongoose';
 // server socket
-import { Server as socketServer } from 'socket.io';
+import jwt from 'jsonwebtoken';
+import { Server } from 'socket.io';
 import config from './app/config';
-import setupDeliveryTracking from './app/sockets/deliveryTracker';
 import application from './appFile';
+import { orderHandler } from './socket/orderHandler';
+import { userHandler } from './socket/userHandler';
 
 // for socket
-let io: socketServer;
+
 const server = http.createServer(application);
+const io = new Server(server, { cors: { origin: '*', methods: ['GET', 'POST'], credentials: true } });
 
 // Database connection
 async function connectToDatabase() {
@@ -47,18 +50,35 @@ async function bootstrap() {
 		const allowedOrigins =
 			process.env.NODE_ENV === 'production' ? ['http://103.174.51.143:3000'] : ['http://103.174.51.143:3000'];
 
-		io = new socketServer(server, {
-			cors: {
-				origin: allowedOrigins,
-				methods: ['GET', 'POST'],
-				credentials: true,
-			},
+		io.use((socket, next) => {
+			const token = socket.handshake.auth?.token;
+			if (!token) {
+				return next(new Error('Authentication error: Token missing'));
+			}
+
+			try {
+				// Verify the JWT (Use the same secret as your REST API)
+
+				const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET as string) as any;
+
+				// Attach user data to the socket object for later use
+				socket.data.userId = decoded.userId;
+				socket.data.role = decoded.role;
+
+				next(); // Allow connection
+			} catch (err) {
+				next(new Error('Authentication error: Invalid token'));
+			}
 		});
 
 		io.on('connection', (socket) => {
-			console.log('Socket connected', socket.id);
-			setupDeliveryTracking(io, socket);
+			console.log('a user connected', socket.id);
+			socket.emit('connected', { message: `User ${socket.id} connected` });
 
+			userHandler(io, socket);
+			orderHandler(io, socket);
+
+			//orderid
 			socket.on('disconnect', () => {
 				console.log('socket disconnected', socket.id);
 			});
