@@ -151,6 +151,36 @@ const updateAgentStatusIntoDB = async (userId: string) => {
 		throw new Error(err);
 	}
 };
+const updateAgentStatusDeliveredIntoDB = async (userId: string) => {
+	const session = await mongoose.startSession();
+	session.startTransaction();
+	try {
+		const user = await User.findById(userId).session(session);
+		if (!user) {
+			throw new AppError(StatusCodes.NOT_FOUND, 'User is not found');
+		}
+		user.picked = false;
+		const result = await user.save({ session });
+
+		const agentOrder = await AgentOrder.findOne({ agentId: userId }).session(session);
+
+		agentOrder!.status = 'Delivered';
+		await agentOrder?.save({ session });
+
+		const orderUpdate = await Order.findById(agentOrder?.orderId).session(session);
+		orderUpdate!.status = 'Completed';
+		orderUpdate!.status = 'Completed';
+		await orderUpdate!.save({ session });
+
+		await session.commitTransaction();
+		session.endSession();
+		return result;
+	} catch (err: any) {
+		await session.abortTransaction();
+		session.endSession();
+		throw new Error(err);
+	}
+};
 
 export const UserServices = {
 	registerUser,
@@ -159,4 +189,5 @@ export const UserServices = {
 	updateUserStatus,
 	updateProfile,
 	updateAgentStatusIntoDB,
+	updateAgentStatusDeliveredIntoDB,
 };

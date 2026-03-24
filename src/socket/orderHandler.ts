@@ -21,6 +21,14 @@ export const orderHandler = (io: Server, socket: Socket) => {
 		}
 		// io.to('admins').emit('newOrderPlaced');
 	});
+	socket.on('OrderDelivered', async ({ orderId }: { orderId: string }) => {
+		const order = await Order.findById(orderId);
+
+		if (order) {
+			io.to(`user_${order.user}`).emit('ReceivedOrder', { orderId });
+		}
+		// io.to('admins').emit('newOrderPlaced');
+	});
 
 	// 3. Assign order to Agent
 	socket.on('OrderAssigned', ({ agentId }: { agentId: string }) => {

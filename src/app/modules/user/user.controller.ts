@@ -87,6 +87,18 @@ const updateAgentStatus = catchAsync(async (req, res) => {
 	});
 });
 
+const updateAgentReceivedStatus = catchAsync(async (req, res) => {
+	const userId = req.params.agentId;
+	const result = await UserServices.updateAgentStatusDeliveredIntoDB(userId);
+
+	sendResponse(res, {
+		statusCode: StatusCodes.OK,
+		success: true,
+		message: `Agent Delivered the product`,
+		data: result,
+	});
+});
+
 export const UserController = {
 	registerUser,
 	getAllUser,
@@ -94,4 +106,5 @@ export const UserController = {
 	updateUserStatus,
 	updateProfile,
 	updateAgentStatus,
+	updateAgentReceivedStatus,
 };

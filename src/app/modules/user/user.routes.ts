@@ -26,6 +26,7 @@ router.patch(
 );
 
 router.patch('/update-agent-status/:agentId', auth(UserRole.AGENT), UserController.updateAgentStatus);
+router.patch('/update-agent-status-received/:agentId', auth(UserRole.AGENT), UserController.updateAgentReceivedStatus);
 
 router.patch('/:id/status', auth(UserRole.ADMIN), UserController.updateUserStatus);
 
