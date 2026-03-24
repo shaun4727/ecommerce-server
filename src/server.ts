@@ -72,7 +72,6 @@ async function bootstrap() {
 		});
 
 		io.on('connection', (socket) => {
-			console.log('a user connected', socket.id);
 			socket.emit('connected', { message: `User ${socket.id} connected` });
 
 			userHandler(io, socket);

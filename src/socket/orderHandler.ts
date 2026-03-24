@@ -6,16 +6,19 @@ export const orderHandler = (io: Server, socket: Socket) => {
 	socket.on('joinOrderRoom', ({ orderId }: { orderId: string }, callback) => {
 		const roomName = `order_${orderId}`;
 		socket.join(roomName);
-		console.log(`Socket ${socket.id} joined ${roomName}`);
 		callback(`Socket ${socket.id} joined ${roomName}`);
 	});
 
 	socket.on('orderPlaced', () => {
 		io.to('admins').emit('newOrderPlaced');
 	});
+
 	socket.on('OrderPicked', async ({ orderId }: { orderId: string }) => {
-		const order = Order.findById(orderId);
-		console.log(order);
+		const order = await Order.findById(orderId);
+
+		if (order) {
+			io.to(`user_${order.user}`).emit('ShippedOrder', { orderId });
+		}
 		// io.to('admins').emit('newOrderPlaced');
 	});
 
