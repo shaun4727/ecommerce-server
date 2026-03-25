@@ -227,6 +227,10 @@ const assignOrderToAgentIntoDB = async (assignment: IAgentOrder) => {
 	try {
 		const order = await Order.findById(assignment.orderId).session(session);
 
+		if (!order) {
+			throw new Error('Core order not found');
+		}
+
 		const assignedOrder = new AgentOrder({
 			...assignment,
 		});

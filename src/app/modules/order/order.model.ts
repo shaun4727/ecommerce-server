@@ -178,11 +178,11 @@ const AgentOrderSchema: Schema = new Schema<IAgentOrder>(
 			ref: 'Order', // Optional: If this orderId refers to a separate 'Order' collection
 		},
 		agentId: {
-			type: Schema.Types.ObjectId, // Use Mongoose's ObjectId type
-			required: true, // Assuming orderId is mandatory
-			ref: 'User', // Optional: If this orderId refers to a separate 'Order' collection
+			type: Schema.Types.ObjectId,
+			required: true,
+			ref: 'User',
+			unique: false, // Ensure this is NOT true
 		},
-
 		destination: {
 			type: {
 				city: String,

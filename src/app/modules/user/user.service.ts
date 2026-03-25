@@ -162,10 +162,7 @@ const updateAgentStatusDeliveredIntoDB = async (userId: string) => {
 		user.picked = false;
 		const result = await user.save({ session });
 
-		const agentOrder = await AgentOrder.findOne({ agentId: userId }).session(session);
-
-		agentOrder!.status = 'Delivered';
-		await agentOrder?.save({ session });
+		const agentOrder = await AgentOrder.findOneAndDelete({ agentId: userId }).session(session);
 
 		const orderUpdate = await Order.findById(agentOrder?.orderId).session(session);
 		orderUpdate!.status = 'Completed';
