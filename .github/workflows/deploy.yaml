@@ -57,19 +57,17 @@ jobs:
 
                   # 3. Connect and run commands on the server
                   ssh $EC2_USER@$EC2_HOST << 'EOF'
-                      cd /home/ubuntu/project/backend/ecommerce-server
-                      
-                      # 2. Pull the latest code
-                      git pull origin master
-                      
-                      # 3. Install and Build (If not done in a separate 'build' job)
-                      npm install --frozen-lockfile
-                      npm run build
-                      
-                      # 4. Restart using your ecosystem file
-                      # We go up one level to find the config file
-                      pm2 startOrRestart ../ecosystem.config.js --env production
-                      
-                      # 5. Save the process list so it survives a server reboot
-                      pm2 save
+                  # 1. Manually load NVM/Node environment
+                  export NVM_DIR="$HOME/.nvm"
+                  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+                  # 2. Now pm2 will be recognized
+                  cd /home/ubuntu/project/backend/ecommerce-server
+                  git pull origin master
+
+                  npm install --frozen-lockfile
+                  npm run build
+
+                  pm2 startOrRestart ../ecosystem.config.js --env production
+                  pm2 save
                   EOF
