@@ -47,27 +47,29 @@ jobs:
                   EC2_HOST: ${{ secrets.EC2_HOST }}
                   EC2_USER: ${{ secrets.EC2_USER }}
               run: |
-                  # 1. Setup the SSH directory and key
                   mkdir -p ~/.ssh
                   echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
                   chmod 600 ~/.ssh/id_rsa
 
-                  # 2. Add the EC2 host to known_hosts to avoid the "trust" prompt
+                  # Start the ssh-agent and add your key locally on the runner
+                  eval `ssh-agent -s`
+                  ssh-add ~/.ssh/id_rsa
+
                   ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
 
-                  # 3. Connect and run commands on the server
-                  ssh $EC2_USER@$EC2_HOST << 'EOF'
-                  # 1. Manually load NVM/Node environment
-                  export NVM_DIR="$HOME/.nvm"
-                  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+                  # Use the -A flag to forward your agent to the EC2
+                  ssh -A $EC2_USER@$EC2_HOST << 'EOF'
+                      export NVM_DIR="$HOME/.nvm"
+                      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-                  # 2. Now pm2 will be recognized
-                  cd /home/ubuntu/project/backend/ecommerce-server
-                  git pull origin master
+                      cd /home/ubuntu/project/backend/ecommerce-server
+                      
+                      # Now this will use the forwarded key to authenticate with GitHub
+                      git pull origin master
 
-                  npm install --frozen-lockfile
-                  npm run build
+                      npm install --frozen-lockfile
+                      npm run build
 
-                  pm2 startOrRestart ../ecosystem.config.js --env production
-                  pm2 save
+                      pm2 startOrRestart ../ecosystem.config.js --env production
+                      pm2 save
                   EOF
