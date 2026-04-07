@@ -1,90 +1,69 @@
-import { StatusCodes } from "http-status-codes";
-import catchAsync from "../../utils/catchAsync";
-import sendResponse from "../../utils/sendResponse";
-import { Request, Response } from "express";
-import { NavigationService } from "./navigation.service";
-
-
-
-
+import { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import { NavigationService } from './navigation.service';
 
 const navigationCreation = catchAsync(async (req: Request, res: Response) => {
+	const result = await NavigationService.createNavigation(req.body);
 
-    const result = await NavigationService.createNavigation(
-    req.body
-    );
-
-
-  sendResponse(res, {
-    statusCode: StatusCodes.OK,
-    success: true,
-    message: 'Menu created successfully!',
-    data: result,
-  });
+	sendResponse(res, {
+		statusCode: StatusCodes.OK,
+		success: true,
+		message: 'Menu created successfully!',
+		data: result,
+	});
 });
 
 const navigationUpdateController = catchAsync(async (req: Request, res: Response) => {
+	const result = await NavigationService.updateNavigationService(req.body);
 
-    const result = await NavigationService.updateNavigationService(
-    req.body
-    );
-    console.log(req.body);
-
-  sendResponse(res, {
-    statusCode: StatusCodes.OK,
-    success: true,
-    message: 'Menu updated successfully!',
-    data: result,
-  });
+	sendResponse(res, {
+		statusCode: StatusCodes.OK,
+		success: true,
+		message: 'Menu updated successfully!',
+		data: result,
+	});
 });
-
 
 const getNavigationMenusController = catchAsync(async (req: Request, res: Response) => {
+	const result = await NavigationService.getNavigationMenuService();
 
-    const result = await NavigationService.getNavigationMenuService();
-
-
-  sendResponse(res, {
-    statusCode: StatusCodes.OK,
-    success: true,
-    message: 'Menu retrieved successfully!',
-    data: result,
-  });
+	sendResponse(res, {
+		statusCode: StatusCodes.OK,
+		success: true,
+		message: 'Menu retrieved successfully!',
+		data: result,
+	});
 });
-
 
 const getNavigationMenus = catchAsync(async (req: Request, res: Response) => {
+	const result = await NavigationService.getNavigationMenuForWebService();
 
-  const result = await NavigationService.getNavigationMenuForWebService();
-
-
-  sendResponse(res, {
-    statusCode: StatusCodes.OK,
-    success: true,
-    message: 'Menu retrieved successfully!',
-    data: result,
-  });
+	sendResponse(res, {
+		statusCode: StatusCodes.OK,
+		success: true,
+		message: 'Menu retrieved successfully!',
+		data: result,
+	});
 });
 
-
 const deleteNavigationMenusController = catchAsync(async (req: Request, res: Response) => {
+	const { id } = req.params;
+	await NavigationService.deleteNavigationMenuService(id);
 
-    const { id } = req.params;
-    await NavigationService.deleteNavigationMenuService(id);
-
-
-  sendResponse(res, {
-    statusCode: StatusCodes.OK,
-    success: true,
-    message: 'Menu deleted successfully!',
-    data: '',
-  });
+	sendResponse(res, {
+		statusCode: StatusCodes.OK,
+		success: true,
+		message: 'Menu deleted successfully!',
+		data: '',
+	});
 });
 
 export const NavigationController = {
-    navigationCreation,
-    getNavigationMenusController,
-    deleteNavigationMenusController,
-    navigationUpdateController,
-    getNavigationMenus
-}
+	navigationCreation,
+	getNavigationMenusController,
+	deleteNavigationMenusController,
+	navigationUpdateController,
+	getNavigationMenus,
+};
