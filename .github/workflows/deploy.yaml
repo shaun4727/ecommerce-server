@@ -57,15 +57,17 @@ jobs:
 
                   ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
 
-                  # Use the -A flag to forward your agent to the EC2
-                  ssh -A $EC2_USER@$EC2_HOST << 'EOF'
+                  # Copy files to EC2
+                  rsync -avz --delete \
+                    -e "ssh -i ~/.ssh/id_rsa" \
+                    ./ $EC2_USER@$EC2_HOST:/home/ubuntu/project/backend/ecommerce-server
+
+                  # Restart app
+                  ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST << 'EOF'
                       export NVM_DIR="$HOME/.nvm"
                       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
                       cd /home/ubuntu/project/backend/ecommerce-server
-                      
-                      # Now this will use the forwarded key to authenticate with GitHub
-                      git pull origin master
 
                       npm install --frozen-lockfile
                       npm run build
