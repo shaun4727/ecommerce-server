@@ -99,6 +99,7 @@ const getAllProduct = async (query: Record<string, unknown>) => {
 	// Build the filter object
 	const filter: Record<string, any> = {};
 
+	// code updated with filter
 	// Filter by categories
 	if (categories) {
 		const categoryArray =
