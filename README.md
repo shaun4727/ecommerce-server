@@ -1,6 +1,5 @@
 # E - Server
 
-
 E-Mart is a robust and scalable backend solution for an e-commerce platform. It handles user authentication, product management, order processing, payment integration, and more. Built with Node.js, Express.js, and MongoDB, this project is designed for high performance and flexibility.
 
 ---
@@ -29,26 +28,29 @@ Follow the steps below to set up and run the project locally:
 ### Steps
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/Apollo-Level2-Web-Dev/NextMert-Server.git
-   cd NextMert-Server
-   ```
+
+    ```bash
+    git clone https://github.com/Apollo-Level2-Web-Dev/NextMert-Server.git
+    cd NextMert-Server
+    ```
 
 2. Install dependencies:
-   ```bash
-   yarn install
-   # or
-   npm install
-   ```
+
+    ```bash
+    yarn install
+    # or
+    npm install
+    ```
 
 3. Create a `.env` file in the root directory and configure the environment variables as shown below.
 
 4. Run the development server:
-   ```bash
-   yarn dev
-   # or
-   npm run dev
-   ```
+
+    ```bash
+    yarn dev
+    # or
+    npm run dev
+    ```
 
 5. Access the application on `http://localhost:3001`.
 
@@ -105,24 +107,23 @@ CANCEL_URL="<your_cancel_url>"
 
 ## Scripts
 
-- **Start Development Server**: 
-  ```bash
-  yarn dev
-  ```
-- **Build Production**: 
-  ```bash
-  yarn build
-  ```
-- **Run in Production Mode**: 
-  ```bash
-  yarn start
-  ```
+- **Start Development Server**:
+    ```bash
+    yarn dev
+    ```
+- **Build Production**:
+    ```bash
+    yarn build
+    ```
+- **Run in Production Mode**:
+    ```bash
+    yarn start
+    ```
 
 ---
 
 ## API Documentation
 
-[API Documentation](https://crimson-water-321575.postman.co/workspace/My-Workspace~a466a491-1057-438f-8645-db5512137214/collection/23489586-72a63048-aaf1-4b71-8fd4-7aee220595e1?action=share&creator=23489586)
+[API Documentation](https://documenter.getpostman.com/view/23489586/2sBXwnsWw1)
 
 **EMart** is a single-vendor e-commerce platform. This repository contains the server-side implementation, providing robust backend services and APIs to power the platform.
-
