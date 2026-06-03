@@ -34,5 +34,8 @@ export default {
 		success_url: process.env.SUCCESS_URL,
 		failed_url: process.env.FAILED_URL,
 		cancel_url: process.env.CANCEL_URL,
+		success_url_vercel: process.env.SUCCESS_URL_VERCEL,
+		failed_url_vercel: process.env.FAILED_URL_VERCEL,
+		cancel_url_vercel: process.env.CANCEL_URL_VERCEL,
 	},
 };

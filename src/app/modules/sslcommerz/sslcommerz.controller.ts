@@ -1,33 +1,25 @@
 import { Request, Response } from 'express';
-import { StatusCodes } from 'http-status-codes';
 import config from '../../config';
 import catchAsync from '../../utils/catchAsync';
-import sendResponse from '../../utils/sendResponse';
 import { sslService } from './sslcommerz.service';
 
 const validatePaymentService = catchAsync(async (req: Request, res: Response) => {
-	// Best Practice: SSLCommerz POSTs data to this route.
-	// Fallback to query if it was passed via URL string.
+	// Collect the transaction ID from the incoming SSLCommerz POST body
 	const tran_id = req.body.tran_id || req.query.tran_id;
 
 	if (!tran_id) {
-		return res.redirect(301, config.ssl.failed_url as string);
+		return res.redirect(303, config.ssl.failed_url_vercel as string);
 	}
 
 	const result = await sslService.validatePaymentService(tran_id as string);
 
 	if (result) {
-		// Fix: Append the tran_id so the Next.js frontend can read it!
-		// config.ssl.success_url should be: "http://localhost:3000/payment/success"
-
-		sendResponse(res, {
-			statusCode: StatusCodes.OK,
-			success: true,
-			message: 'Paid successfully!',
-			data: `${config.ssl.success_url}?tran_id=${tran_id}`,
-		});
+		// SUCCESS: Redirect the user back to the Next.js Vercel app
+		// Using a 303 redirect safely changes the browser request from POST to GET
+		res.redirect(303, `${config.ssl.success_url_vercel}?tran_id=${tran_id}`);
 	} else {
-		res.redirect(301, config.ssl.failed_url as string);
+		// FAILURE: Redirect to Vercel failure page
+		res.redirect(303, config.ssl.failed_url_vercel as string);
 	}
 });
 
