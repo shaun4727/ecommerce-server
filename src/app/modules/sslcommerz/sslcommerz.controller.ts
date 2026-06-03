@@ -22,7 +22,13 @@ const validatePaymentService = catchAsync(async (req: Request, res: Response) =>
 		res.redirect(303, config.ssl.failed_url_vercel as string);
 	}
 });
+const failedPaymentService = catchAsync(async (req: Request, res: Response) => {
+	// SUCCESS: Redirect the user back to the Next.js Vercel app
+	// Using a 303 redirect safely changes the browser request from POST to GET
+	res.redirect(303, `${config.ssl.failed_url_vercel}`);
+});
 
 export const SSLController = {
 	validatePaymentService,
+	failedPaymentService,
 };
