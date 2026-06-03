@@ -12,7 +12,12 @@ import router from './app/routes';
 const application: Application = express();
 
 // Middleware setup
-application.use(cors({ origin: 'http://103.174.51.143:3000' }));
+application.use(
+	cors({
+		origin: ['https://advanced-e-commerce-client.vercel.app', 'http://localhost:3000'],
+		credentials: true,
+	}),
+);
 application.use(cookieParser());
 application.use(express.json());
 application.use(express.urlencoded({ extended: true }));
