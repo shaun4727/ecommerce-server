@@ -26,7 +26,7 @@ const initPayment = async (paymentData: {
 
 		// --- FIXED URL MAPPINGS ---
 		// Success goes to the success URL
-		success_url: `${config.ssl.success_url}?tran_id=${tran_id}`,
+		success_url: `${config.ssl.success_url_vercel}?tran_id=${tran_id}`,
 
 		fail_url: config.ssl.failed_url as string,
 		cancel_url: config.ssl.cancel_url as string,
