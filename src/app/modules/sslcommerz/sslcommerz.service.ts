@@ -28,8 +28,8 @@ const initPayment = async (paymentData: {
 		// Success goes to the success URL
 		success_url: `${config.ssl.success_url_vercel}?tran_id=${tran_id}`,
 
-		fail_url: config.ssl.failed_url as string,
-		cancel_url: config.ssl.cancel_url as string,
+		fail_url: config.ssl.failed_url_vercel as string,
+		cancel_url: config.ssl.cancel_url_vercel as string,
 
 		// Map the required ipn_url field to your existing validation_url config
 		ipn_url: config.ssl.validation_url as string,
