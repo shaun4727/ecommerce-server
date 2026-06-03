@@ -25,6 +25,6 @@ router.patch(
 	OrderController.updateDeliveryStatus,
 );
 
-router.get('/get-customer-invoice', auth(UserRole.USER, UserRole.ADMIN), OrderController.getCustomerInvoice);
+router.get('/get-customer-invoice/:orderId', auth(UserRole.USER, UserRole.ADMIN), OrderController.getCustomerInvoice);
 
 export const OrderRoutes = router;

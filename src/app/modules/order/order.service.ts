@@ -315,14 +315,21 @@ const updateDeliveryStatusIntoDB = async (orderId: string, userId: string) => {
 		throw new err();
 	}
 };
-const getCustomerInvoiceFromDB = async (userId: string) => {
+const getCustomerInvoiceFromDB = async (userId: string, orderId: string) => {
 	try {
-		const order = await Order.findOne({ user: userId }).populate('user products.product');
+		// Query by BOTH order ID and user ID for security
+		const order = await Order.findOne({
+			_id: orderId,
+			user: userId,
+		}).populate('user products.product');
+
+		if (!order) {
+			throw new Error('Order not found or unauthorized access');
+		}
 
 		return order;
-		// Set the response headers
 	} catch (err: any) {
-		throw new err();
+		throw err;
 	}
 };
 

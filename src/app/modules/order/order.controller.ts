@@ -112,12 +112,16 @@ const updateDeliveryStatus = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getCustomerInvoice = catchAsync(async (req: Request, res: Response) => {
-	const invoiceDetail = await OrderService.getCustomerInvoiceFromDB(req.user?.userId);
+	// 1. Extract orderId from params
+	const { orderId } = req.params;
+
+	// 2. Pass both userId and orderId to the service
+	const invoiceDetail = await OrderService.getCustomerInvoiceFromDB(req.user?.userId, orderId);
 
 	sendResponse(res, {
 		statusCode: StatusCodes.OK,
 		success: true,
-		message: 'Invoice generated successfully',
+		message: 'Invoice fetched successfully',
 		data: invoiceDetail,
 	});
 });
