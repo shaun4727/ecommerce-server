@@ -17,7 +17,7 @@ const validatePaymentService = catchAsync(async (req: Request, res: Response) =>
 	if (result) {
 		// Fix: Append the tran_id so the Next.js frontend can read it!
 		// config.ssl.success_url should be: "http://localhost:3000/payment/success"
-		res.redirect(303, `${config.ssl.success_url}/payment/success?tran_id=${tran_id}`);
+		res.redirect(303, `${config.ssl.success_url}?tran_id=${tran_id}`);
 	} else {
 		res.redirect(301, config.ssl.failed_url as string);
 	}
