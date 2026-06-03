@@ -32,7 +32,6 @@ export default {
 		store_pass: process.env.STORE_PASSWORD,
 		validation_url: process.env.VALIDATION_URL,
 		success_url: process.env.SUCCESS_URL,
-		backend_success_url: process.env.BACKEND_SUCCESS_URL,
 		failed_url: process.env.FAILED_URL,
 		cancel_url: process.env.CANCEL_URL,
 	},

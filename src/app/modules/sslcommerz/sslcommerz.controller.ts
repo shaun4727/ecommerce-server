@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import config from '../../config';
 import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
 import { sslService } from './sslcommerz.service';
 
 const validatePaymentService = catchAsync(async (req: Request, res: Response) => {
@@ -17,7 +19,13 @@ const validatePaymentService = catchAsync(async (req: Request, res: Response) =>
 	if (result) {
 		// Fix: Append the tran_id so the Next.js frontend can read it!
 		// config.ssl.success_url should be: "http://localhost:3000/payment/success"
-		res.redirect(303, `${config.ssl.success_url}?tran_id=${tran_id}`);
+
+		sendResponse(res, {
+			statusCode: StatusCodes.OK,
+			success: true,
+			message: 'Paid successfully!',
+			data: `${config.ssl.success_url}?tran_id=${tran_id}`,
+		});
 	} else {
 		res.redirect(301, config.ssl.failed_url as string);
 	}

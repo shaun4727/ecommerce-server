@@ -24,7 +24,7 @@ application.use(express.urlencoded({ extended: true }));
 
 application.use('/api/v1', router);
 application.use((req, res, next) => {
-	res.header('Access-Control-Allow-Origin', 'http://103.174.51.143:3000');
+	res.header('Access-Control-Allow-Origin', 'https://advanced-e-commerce-client.vercel.app');
 	res.header('Access-Control-Allow-Credentials', 'true');
 	res.header('Access-Control-Allow-Methods', 'GET, POST');
 	next();
