@@ -14,7 +14,7 @@ const application: Application = express();
 // Middleware setup
 application.use(
 	cors({
-		origin: ['https://advanced-e-commerce-client.vercel.app', 'http://localhost:3000'],
+		origin: ['https://advanced-e-commerce-client.vercel.app', 'http://localhost:3000', 'http://localhost:3001'],
 		credentials: true,
 	}),
 );
